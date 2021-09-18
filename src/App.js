@@ -5,9 +5,10 @@ import Toolbar from "@material-ui/core/Toolbar";
 import { Tab, Tabs } from "@material-ui/core";
 import "./styles/css/App.css";
 import "./components/RawBulletTextArea";
-import { BulletEditor, BulletOutputViewer } from "./components/bullets";
+import BulletEditor from "./components/Bullets/BulletEditor";
+import BulletOutputViewer from "./components/Bullets/BulletOutputViewer";
 import AcronymViewer from "./components/AcronymViewer";
-import AbbreviationTable from "./components/abbreviations";
+import AbbreviationTable from "./components/AbbreviationTable";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -15,7 +16,14 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Drawer from "@material-ui/core/Drawer";
 import ViewListIcon from "@material-ui/icons/ViewList";
 
+/**
+ * App
+ */
 class App extends React.Component {
+  /**
+   * Constructor
+   * @param props
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -29,10 +37,10 @@ class App extends React.Component {
         { value: "organizations", abbr: "orgs" },
         { value: "expandable", abbr: "expdble" },
       ],
-      bulletType: "OPR",
+      bulletType: "EPR",
       tabValue: 0,
       drawerOpen: false,
-      thesauresViewer: {
+      thesaurusViewer: {
         visible: false,
         posX: 0,
         posY: 0,
@@ -43,6 +51,9 @@ class App extends React.Component {
     this.handleTextAreaUpdate = this.handleTextAreaUpdate.bind(this);
   }
 
+  /**
+   * Component Did Mount
+   */
   componentDidMount() {
     const el = document.querySelector(".loader-container");
     if (el) {
@@ -56,8 +67,18 @@ class App extends React.Component {
     }
   }
 
-  componentDidUpdate() {}
+  /**
+   * Component Did Update
+   * @param prevProps
+   * @param prevState
+   * @param snapshot
+   */
+  componentDidUpdate(prevProps, prevState, snapshot) {}
 
+  /**
+   * Save Settings
+   * @param settings
+   */
   saveSettings = (settings) => {
     try {
       window.localStorage.setItem("settings", JSON.stringify(settings));
@@ -66,6 +87,10 @@ class App extends React.Component {
     }
   };
 
+  /**
+   * Get Settings
+   * @returns {null|any}
+   */
   getSettings = () => {
     try {
       if (window.localStorage.getItem("settings")) {
@@ -78,18 +103,22 @@ class App extends React.Component {
     return null;
   };
 
+  /**
+   * On Abbreviation Table Change
+   */
   onAbbreviationTableChange = () => {
     const { abbreviationData } = this.state;
-
     this.setAbbreviationTable(abbreviationData);
-
-    console.log(abbreviationData);
     let settings = { abbreviationData: abbreviationData };
     this.saveSettings(settings);
   };
 
-  setAbbreviationTable = (abreviationData) => {
-    let newTable = abreviationData.filter(
+  /**
+   * Set Abbreviation Table
+   * @param abbreviationData
+   */
+  setAbbreviationTable = (abbreviationData) => {
+    let newTable = abbreviationData.filter(
       (row) => row.value !== null && row.abbr !== null
     );
     newTable = newTable.map((row) => {
@@ -100,12 +129,21 @@ class App extends React.Component {
     this.setState({ abbreviationTable: newTable });
   };
 
+  /**
+   * Handle Text Area Update
+   * @param text
+   */
   handleTextAreaUpdate = (text) => {
+    console.log("Update text with: ");
+    console.log(text);
     this.inputTextRef.current.style.height =
       this.inputTextRef.current.scrollHeight + "px";
     this.setState({ bulletInputText: text });
   };
 
+  /**
+   * Handle Select
+   */
   handleSelect = () => {
     // let selection = window.getSelection();
     // // Get position of text selection
@@ -126,10 +164,21 @@ class App extends React.Component {
     // word.trim();
   };
 
+  /**
+   * Bullet Type Change
+   * @param e
+   * @param newValue
+   */
   bulletTypeChange = (e, newValue) => {
-    let bulletTypes = ["OPR", "EPR", "AWD"];
+    let bulletTypes = ["EPR", "OPR"];
     this.setState({ tabValue: newValue, bulletType: bulletTypes[newValue] });
   };
+
+  /**
+   * Toggle Drawer
+   * @param event
+   * @param v
+   */
   toggleDrawer = (event, v) => {
     if (
       event.type === "keydown" &&
@@ -140,25 +189,30 @@ class App extends React.Component {
     this.setState({ drawerOpen: v });
   };
 
+  /**
+   * Render
+   * @returns {JSX.Element}
+   */
   render() {
     const widthSettings = {
-      AWD: "202.321mm",
-      EPR: "202.321mm",
       OPR: "201.050mm",
+      EPR: "202.321mm",
+    };
+    const bgColor = {
+      OPR: "#1a6f46",
+      EPR: "",
     };
 
     const widthSetting = widthSettings[this.state.bulletType];
-
-    // let synList = null;
-    // if (this.state.thesauresViewer.wordList !== null) {
-    //   synList = this.state.thesauresViewer.wordList.map(syn =>
-    //     <li className="synonym-button" onClick={()=> this.handleSynonymSelect(syn)}>{syn}</li>
-    //   )
-    // }
+    const currentBgColor = bgColor[this.state.bulletType];
 
     return (
       <div id="root" className="root">
-        <AppBar position="static" className="app-bar">
+        <AppBar
+          position="static"
+          className="app-bar"
+          style={{ backgroundColor: currentBgColor }}
+        >
           <Toolbar>
             <Typography variant="h6" color="inherit" className="title">
               Bullet Buddy!
@@ -167,12 +221,9 @@ class App extends React.Component {
               className=""
               value={this.state.tabValue}
               onChange={this.bulletTypeChange}
-              // indicatorColor="primary"
-              // textColor="primary"
             >
+              <Tab label="EPR/AWD" />
               <Tab label="OPR" />
-              <Tab label="EPR" />
-              <Tab label="AWD" />
             </Tabs>
             <Button
               size="small"
@@ -187,80 +238,73 @@ class App extends React.Component {
         </AppBar>
 
         <Container className="content" maxWidth="xl">
-          <Grid container justify="space-around">
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              xl={6}
-              spacing={1}
-              align="center"
-            >
-              <Typography variant="h6">Input Bullets Here</Typography>
-
-              <textarea
-                ref={this.inputTextRef}
-                value={this.state.bulletInputText}
-                rows={6}
-                onChange={(e) => this.handleTextAreaUpdate(e.target.value)}
-                className="bullet-input-text"
-                style={{
-                  width: widthSettings[this.state.bulletType],
-                  resize: "none",
-                  minHeight: "5em",
-                }}
-              />
-              <div>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  size="small"
-                  startIcon={<DeleteIcon />}
-                  onClick={() => {
-                    this.handleTextAreaUpdate("");
-                    this.inputTextRef.current.style.height = "5em";
+          <Grid container justifyContent="space-around" spacing={1}>
+            <Grid item xs={12} md={12} lg={12} xl={6} align="center">
+              <div className="container">
+                <Typography variant="h6">Input Bullets Here</Typography>
+                <textarea
+                  ref={this.inputTextRef}
+                  value={this.state.bulletInputText}
+                  rows={6}
+                  onChange={(e) => this.handleTextAreaUpdate(e.target.value)}
+                  className="bullet-input-text"
+                  style={{
+                    width: widthSettings[this.state.bulletType],
+                    resize: "none",
+                    minHeight: "5em",
                   }}
-                >
-                  Clear Input
-                </Button>
+                />
+                <div style={{marginTop: "1em"}}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                    startIcon={<DeleteIcon />}
+                    onClick={() => {
+                      this.handleTextAreaUpdate("");
+                      this.inputTextRef.current.style.height = "5em";
+                    }}
+                  >
+                    Clear Input
+                  </Button>
+                </div>
               </div>
 
-              <Typography variant="h6" component="h2">
-                Smart Bullet Editor
-              </Typography>
+              <div className="container">
+                <Typography variant="h6" component="h2">
+                  Smart Bullet Editor
+                </Typography>
 
-              <BulletEditor
-                inputBullets={this.state.bulletInputText}
-                updateInputText={this.handleTextAreaUpdate}
-                abbreviationData={this.state.abbreviationTable}
-                width={widthSetting}
-              />
+                <small>Hover over terms to see synonyms</small>
+
+                <BulletEditor
+                  inputBullets={this.state.bulletInputText}
+                  updateInputText={this.handleTextAreaUpdate}
+                  abbreviationData={this.state.abbreviationTable}
+                  width={widthSetting}
+                />
+              </div>
             </Grid>
 
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              xl={6}
-              spacing={1}
-              align="center"
-            >
-              <Typography variant="h6" component="h2">
-                Bullet Output
-              </Typography>
+            <Grid item xs={12} md={12} lg={12} xl={6} align="center">
+              <div className="container">
+                <Typography variant="h6" component="h2">
+                  Bullet Output
+                </Typography>
 
-              <BulletOutputViewer
-                bulletsText={this.state.bulletInputText}
-                width={widthSetting}
-                updateInputText={this.handleTextAreaUpdate}
-              />
+                <BulletOutputViewer
+                  bulletsText={this.state.bulletInputText}
+                  width={widthSetting}
+                  updateInputText={this.handleTextAreaUpdate}
+                />
+              </div>
 
-              <AcronymViewer
-                width={widthSetting}
-                text={this.state.bulletInputText}
-              />
+              <div className="container">
+                <AcronymViewer
+                  width={widthSetting}
+                  text={this.state.bulletInputText}
+                />
+              </div>
             </Grid>
           </Grid>
 
@@ -270,7 +314,7 @@ class App extends React.Component {
             open={this.state.drawerOpen}
             onClose={(e) => this.toggleDrawer(e, false)}
           >
-            <div className="drawer-header">
+            <div id="drawer-header" className="drawer-header">
               <Typography variant="h6">Current Abbreviations Table</Typography>
               <Typography variant="subtitle1">
                 Copy your organizations approved abbreviations into the table.
@@ -284,7 +328,7 @@ class App extends React.Component {
           </Drawer>
         </Container>
 
-        <div class="bottom-text">
+        <div className="bottom-text">
           <p>
             This site utilizes{" "}
             <a href="https://material-ui.com/"> Material-UI</a>,{" "}
