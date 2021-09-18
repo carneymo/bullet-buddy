@@ -3,7 +3,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import {Tab, Tabs} from '@material-ui/core';
-import './App.css';
+import './styles/css/App.css';
 import './components/RawBulletTextArea';
 import {BulletEditor, BulletOutputViewer} from './components/bullets';
 import AcronymViewer from './components/AcronymViewer';

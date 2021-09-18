@@ -1,8 +1,10 @@
+@import '../../../node_modules/handsontable/dist/handsontable.full.css';
+
 @font-face {
   font-family: "AdobeTimes";
-  src: url("./TimesNewRomanPSMT.ttf");
+  src: url("../fonts/TimesNewRomanPSMT.ttf");
 }
-@import './handsontable.min.css';
+
 html{
   background-color: #f5f5f5;
 }
@@ -28,23 +30,20 @@ html{
   text-align: left;
 }
 .bullet-input-text{
-  font-family: "AdobeTimes";
+  font-family: "AdobeTimes", sans-serif;
   font-size: 12pt;
-  white-space:pre-wrap;
   display:inline;
   text-rendering: geometricPrecision;
   resize: none;
   white-space: pre-line;
-  text-indent: 0px;
+  text-indent: 0;
   padding: 0;
   margin: 0;
-  overflow: block;
+  overflow: auto;
   /* -ms-overflow-style: none;  /* IE and Edge */
   /* scrollbar-width: none;  Firefox */ 
 }
-/* .bullet-input-text::-webkit-scrollbar{
-  display: none;
-} */
+
 .bullet-editor{
   min-height: 1em;
   text-align: left;
