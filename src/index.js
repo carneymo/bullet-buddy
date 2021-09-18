@@ -1,34 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './styles/css/index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-
-// implementing fontReady as a promise (instead of using document.fonts.ready) to make it Edge compatible
-// const fontReady = new Promise(function(resolve,rej){
-//   window.WebFont.load({
-//       custom: {
-//           families: ['AdobeTimes']
-//       }
-//   });
-//   resolve();
-// });
-
-// fontReady.then( ()=>{
-//   ReactDOM.render(
-//     <React.StrictMode>
-//       <App />
-//     </React.StrictMode>,
-//     document.getElementById('root')
-//   );
-// });
+import React from "react";
+import ReactDOM from "react-dom";
+import "./styles/css/index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>,
-      document.getElementById('root')
-    );
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById("root")
+);
 
 
 // If you want your app to work offline and load faster, you can change
