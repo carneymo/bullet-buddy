@@ -1,20 +1,38 @@
 import React from "react";
 
+/**
+ * Input Bullet Text Area
+ */
 class InputBulletTextArea extends React.Component {
+  /**
+   * Constructor
+   * @param props
+   */
   constructor(props) {
     super(props);
     this.state = {};
   }
 
+  /**
+   * Component Did Mount
+   */
   componentDidMount() {}
 
-  textAreaUpdate = (evnt) => {
-    this.setState({ text: evnt.target.value });
+  /**
+   * Text Area Update
+   * @param event
+   */
+  textAreaUpdate = (event) => {
+    this.setState({ text: event.target.value });
   };
 
+  /**
+   * Render
+   * @returns {JSX.Element}
+   */
   render() {
+
     const widthSettings = {
-      AWD: "202.321mm",
       EPR: "202.321mm",
       OPR: "201.041mm",
     };
