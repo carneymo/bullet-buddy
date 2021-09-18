@@ -41,27 +41,43 @@ const tableSettings = {
       const DEFAULT_CALLBACK = function (instance, row, col, data, testResult) {
         instance.getCellMeta(row, col).isSearchResult = testResult;
       };
-
       DEFAULT_CALLBACK.apply(this, arguments);
     },
   },
 };
 
+/**
+ * Abbreviation Table
+ *
+ * Table for adding substitutable abbreviations.
+ * Ex: Squadron -> Sq
+ */
 class AbbreviationTable extends React.Component {
+
+  /**
+   * Constructor
+   * @param props
+   */
   constructor(props) {
     super(props);
     this.state = {};
   }
 
+  /**
+   * Handle Change
+   * @param e
+   */
   handleChange = (e) => {
-    // Call parent to update state need to do value and abbr seperatly! They each come back as there own event.
-
     if (e === null) {
       return;
     }
     this.props.onAbbrevitionDataChange(e);
   };
 
+  /**
+   * Render
+   * @returns {JSX.Element}
+   */
   render() {
     const { abbreviationData } = this.props;
     return (
