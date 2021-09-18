@@ -2,12 +2,24 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 
+/**
+ * Acronym Viewer
+ *
+ * Display of Acronyms
+ */
 class AcronymViewer extends React.Component {
+  /**
+   * Constructor
+   * @param props
+   */
   constructor(props) {
     super(props);
     this.ref = React.createRef();
   }
 
+  /**
+   * Handle Copy Button Click
+   */
   handleCopyButtonClick = () => {
     let range = document.createRange();
     range.selectNode(this.ref.current);
@@ -17,7 +29,11 @@ class AcronymViewer extends React.Component {
     window.getSelection().removeAllRanges(); // clear current selection
   };
 
-  extractAcroyms = () => {
+  /**
+   * Extract Acronyms
+   * @returns {string|*}
+   */
+  extractAcronyms = () => {
     const { text } = this.props;
     if (text === null) {
       return "no acronyms yet";
@@ -38,8 +54,12 @@ class AcronymViewer extends React.Component {
     return acs;
   };
 
+  /**
+   * Render
+   * @returns {JSX.Element}
+   */
   render() {
-    const acronyms = this.extractAcroyms();
+    const acronyms = this.extractAcronyms();
     return (
       <div>
         <div
@@ -56,15 +76,18 @@ class AcronymViewer extends React.Component {
             {acronyms}
           </div>
         </div>
-        <Button
-          variant="outlined"
-          color="primary"
-          size="small"
-          onClick={(e) => this.handleCopyButtonClick(e)}
-          startIcon={<FileCopyIcon />}
-        >
-          Copy Acronym List to Clipboard
-        </Button>
+
+        <div style={{ marginTop: "1em" }}>
+          <Button
+            variant="outlined"
+            color="primary"
+            size="small"
+            onClick={(e) => this.handleCopyButtonClick(e)}
+            startIcon={<FileCopyIcon />}
+          >
+            Copy Acronym List to Clipboard
+          </Button>
+        </div>
       </div>
     );
   }
