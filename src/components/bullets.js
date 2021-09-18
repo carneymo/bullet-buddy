@@ -3,9 +3,7 @@ import Button from '@material-ui/core/Button';
 import Axios from 'axios';
 
 
-import Icon from '@material-ui/core/Icon';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
-import { render } from '@testing-library/react';
 class Word extends React.Component {
   constructor(props) {
     super(props);
@@ -19,7 +17,7 @@ class Word extends React.Component {
     this.handlePopoverOpen = this.handlePopoverOpen.bind(this);
   }
 
-  handlePopoverOpen = (event) => {
+  handlePopoverOpen = () => {
     this.setState({ open: true })
   };
 
@@ -27,7 +25,7 @@ class Word extends React.Component {
     this.setState({ open: false })
   }
 
-  handleHover = (event) =>{
+  handleHover = () =>{
 
     // Change CSS
 
@@ -70,7 +68,7 @@ class Word extends React.Component {
         }
       })
       .catch(err => {
-        //console.log(`ERR: ${JSON.toString(err)}`);
+        console.log(`ERR: ${JSON.stringify(err)}`);
       });
 
   }
@@ -102,9 +100,9 @@ class Word extends React.Component {
     if (abbrvData !== null) {
 
       if (abbrvData.value.toLowerCase() === word.toLowerCase()) { // Abbreviable word
-        
+
         c = c + " abbreviable popup"
-        
+
         return (
           <span
             className={c}
@@ -229,13 +227,13 @@ class Bullet extends React.Component {
     //   output = text.split(/\s/);
     // }
 
-    text.split(/\s/).map(seg=>{
+    text.split(/\s/).forEach((seg) => {
       let innerSeg = seg.split(/([/;,-])/);
       if (innerSeg.length === 1){
         output.push(seg);
         output.push(' ');
       }else{
-        innerSeg.map(s=>{
+        innerSeg.forEach((s) => {
           if(s !== '') output.push(s);
         })
         output.push(' ');
@@ -297,10 +295,10 @@ class BulletEditor extends React.Component {
   }
 
   extractBullets = text => {
-    let bullets = text.split(/-\s{1}/);
+    let bullets = text.split(/-\s/);
     bullets.shift();
     bullets = bullets.map((bullet) => {
-      return bullet = "- " + bullet.trim();
+      return "- " + bullet.trim();
     });
     return bullets;
   }
@@ -323,12 +321,7 @@ class BulletEditor extends React.Component {
       return node.innerText;
     })
 
-    let oldSel = window.getSelection();
-
     this.updateBulletText(c.join(' '), i);
-
-
-    //console.log(window.getSelection())
   }
 
   render() {
@@ -340,7 +333,7 @@ class BulletEditor extends React.Component {
           {
             // Creat a bullet around each bullet
             this.state.bullets.map((bullet, i) => {
-              index += 1; 
+              index += 1;
               return (
                 <span
                   ref={this.ref}
@@ -352,12 +345,12 @@ class BulletEditor extends React.Component {
             })
           }
         </div>
-        <div className="legend">Legend: 
+        <div className="legend">Legend:
           <span className="approved-abbreviation">Approved Abbreviation</span>
           <span className="abbreviable">Abbreviable Word</span>
         </div>
       </div>
-      
+
     );
   }
 }
@@ -384,10 +377,9 @@ class BulletOutputViewerBullet extends React.Component {
   componentDidMount() {
     this.setState({ bulletText: this.props.bulletText })
     //this.evaluateBullet()
-    //console.log("did mount")
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
 
     const { currentBulletText } = this.state;
     const { width } = this.props;
@@ -395,15 +387,14 @@ class BulletOutputViewerBullet extends React.Component {
     let newBulletText = (prevState.bulletText !== currentBulletText && currentBulletText !== null);
 
     // We have a props update, clear everything and start over
-    if (this.props.bulletText !== prevProps.bulletText | width !== prevProps.width) {
-      console.log("did update with new props")
+    if (this.props.bulletText !== prevProps.bulletText || width !== prevProps.width) {
       this.processing = false;
       this.processed = false;
       this.setState({ bulletText: this.props.bulletText, optimized: false })
     } else if (newBulletText && !this.processing && !this.processed) {
-      console.log("did update with new state to process"); 
-      this.optimizeBullet();
-      this.props.handleBulletChange(this.state.bulletText, this.props.index);
+      this.optimizeBullet().then(() => {
+        this.props.handleBulletChange(this.state.bulletText, this.props.index);
+      });
     }
   }
 
@@ -446,33 +437,38 @@ class BulletOutputViewerBullet extends React.Component {
     //   wrapped = true;
     // }
 
-    
+
     ////console.log(`bullet width difference: ${widthDiff}`)
     return { "widthDiff": widthDiff };
   }
+
   getNormalBullet = (text) => {
     let output = text.split(/\s/);
     output.shift(); // remove hypen then add later
     output = output.join(' ');
     return "- " + output.trim();
   }
+
   getSmallestBullet = (text) => {
     let output = text.split(/\s/);
     output.shift(); // remove hypen then add later
     output = output.join(smallSpace);
     return "- " + output.trim();
   }
+
   getLargestBullet = (text) => {
     let output = text.split(/\s/);
     output.shift(); // remove hypen then add later
     output = output.join(largeSpace);
     return "- " + output.trim();
   }
+
   setStateAsync(state) {
     return new Promise((resolve) => {
       this.setState(state, resolve)
     });
   }
+
   async optimizeBullet() {
     let bullet = this.state.bulletText;
     if (bullet === null) { return; }
@@ -504,15 +500,14 @@ class BulletOutputViewerBullet extends React.Component {
     let spaceIndexes = [];
 
     // Find position of all space chars
-    Array.from(bullet).map((word, i) => {
+    Array.from(bullet).forEach((word, i) => {
       if (word.match(/\s/)) {
         spaceIndexes.push(i);
       }
-      return;
     });
-    
+
     spaceIndexes.shift(); // remove the first space since we dont want to add one after hypen
-    
+
     let terminate = false;
     let useIndex = [];
     let action = 0;
@@ -522,13 +517,13 @@ class BulletOutputViewerBullet extends React.Component {
     // Shuffel up the space replacement
     for (let i = 0; i < len; i++) {
       switch (action) {
-        case 0: useIndex.push(spaceIndexes.shift()); 
+        case 0: useIndex.push(spaceIndexes.shift());
           break;// change space towards begining
 
         case 1: useIndex.push(spaceIndexes.pop());
           break;// Chjange space towards end
 
-        case 2: 
+        case 2:
           let val = spaceIndexes.splice(Math.floor(spaceIndexes.length/2),1)
           useIndex.push(val[0]);
           break; // Change space in the middle
@@ -553,7 +548,7 @@ class BulletOutputViewerBullet extends React.Component {
       // Replace the index with the appropriate space char
       let i = useIndex.shift();
       bullet = bullet.substring(0, i) + space + bullet.substring(i + 1);
-      
+
       // Re-evalute the size attributes
       await this.setStateAsync({ bulletText: bullet });
       let currentEval = this.evaluateBullet();
@@ -574,19 +569,19 @@ class BulletOutputViewerBullet extends React.Component {
           optim = true;
         }
       }else{
-        
+
         if (currentEval.widthDiff > 0) {
           prevEval = currentEval;
           prevBullet = bullet;
           continue;
         }
-        
+
         if (currentEval.widthDiff < 0) {
           optim = true;
           terminate = true;
         }
       }
-      
+
     }
 
     // If we get here we should be optimized!
@@ -596,6 +591,7 @@ class BulletOutputViewerBullet extends React.Component {
 
     return (bullet);
   }
+
   tweak = (sentence) => {
     // adds a 0-width space (\u200B) after forward slashes to cause them to wrap
     sentence = sentence.replace(/(\w)\//g, '$1/\u200B');
@@ -604,6 +600,7 @@ class BulletOutputViewerBullet extends React.Component {
     sentence = sentence.replace(/-/g, '\u2011');
     return sentence;
   }
+
   render() {
 
     const { optimized } = this.state;
@@ -631,17 +628,17 @@ class BulletOutputViewer extends React.Component {
     this.setState({ bullets: this.extractBullets(this.props.bulletsText) })
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.bulletsText !== prevProps.bulletsText) {
       this.setState({ bullets: this.extractBullets(this.props.bulletsText) })
     }
   }
 
   extractBullets = text => {
-    let bullets = text.split(/-\s{1}/);
+    let bullets = text.split(/-\s/);
     bullets.shift();
     bullets = bullets.map((bullet) => {
-      return bullet = "- " + bullet.trim() + '\r\n';
+      return "- " + bullet.trim() + '\r\n';
     });
     return bullets;
   }
@@ -657,7 +654,7 @@ class BulletOutputViewer extends React.Component {
 
   }
 
-  handleCopyButtonClick = (e) => {
+  handleCopyButtonClick = () => {
     let range = document.createRange();
     range.selectNode(this.ref.current);
     window.getSelection().removeAllRanges(); // clear current selection
@@ -681,7 +678,7 @@ class BulletOutputViewer extends React.Component {
           <p>XX. AMAZING BULLETS <mark>(Dont forget to copy to the right place!)</mark></p>
           <div ref={this.ref}>
             {
-              
+
               // Create a bullet around each bullet
               this.state.bullets.map((bullet, i) => {
 
@@ -696,7 +693,7 @@ class BulletOutputViewer extends React.Component {
               })
             }
           </div>
-          
+
         </div>
         <Button
           variant="outlined"

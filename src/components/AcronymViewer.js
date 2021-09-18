@@ -8,7 +8,7 @@ class AcronymViewer extends React.Component {
         this.ref = React.createRef();
     }
 
-    handleCopyButtonClick = (e) => {
+    handleCopyButtonClick = () => {
         let range = document.createRange();
         range.selectNode(this.ref.current);
         window.getSelection().removeAllRanges(); // clear current selection
@@ -33,7 +33,7 @@ class AcronymViewer extends React.Component {
                 alreadyAdded.push(acs)
                 return " (" + acs + "); ";
             }
-          return;
+          return "";
         })
         return acs;
       }
