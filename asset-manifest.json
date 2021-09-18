@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/bullet-buddy/static/css/main.51502060.chunk.css",
+    "main.js": "/bullet-buddy/static/js/main.011ee993.chunk.js",
+    "main.js.map": "/bullet-buddy/static/js/main.011ee993.chunk.js.map",
+    "runtime-main.js": "/bullet-buddy/static/js/runtime-main.7258ff3e.js",
+    "runtime-main.js.map": "/bullet-buddy/static/js/runtime-main.7258ff3e.js.map",
+    "static/js/2.be67c9e9.chunk.js": "/bullet-buddy/static/js/2.be67c9e9.chunk.js",
+    "static/js/2.be67c9e9.chunk.js.map": "/bullet-buddy/static/js/2.be67c9e9.chunk.js.map",
+    "index.html": "/bullet-buddy/index.html",
+    "precache-manifest.11e99a90f796a41c1a1345498bd91d13.js": "/bullet-buddy/precache-manifest.11e99a90f796a41c1a1345498bd91d13.js",
+    "service-worker.js": "/bullet-buddy/service-worker.js",
+    "static/css/main.51502060.chunk.css.map": "/bullet-buddy/static/css/main.51502060.chunk.css.map",
+    "static/js/2.be67c9e9.chunk.js.LICENSE.txt": "/bullet-buddy/static/js/2.be67c9e9.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/bullet-buddy/static/media/TimesNewRomanPSMT.f630f93d.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7258ff3e.js",
+    "static/js/2.be67c9e9.chunk.js",
+    "static/css/main.51502060.chunk.css",
+    "static/js/main.011ee993.chunk.js"
+  ]
+}
