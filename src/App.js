@@ -69,11 +69,9 @@ class App extends React.Component {
     let data = this.getStoredData();
     if (data !== null && data !== "") {
       if (data.bullets) {
-        console.log("Saving bullets");
         this.handleTextAreaUpdate(data.bullets);
       }
       if (data.lastSave) {
-        console.log("Saving last saved");
         this.setState({ lastSave: data.lastSave });
       }
     }
