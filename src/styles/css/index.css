@@ -254,3 +254,13 @@ html {
 .synonym-button:hover {
     background-color: sandybrown;
 }
+
+.footer-bar a {
+    color: #ff9000;
+    text-decoration: none;
+}
+
+.footer-bar a:hover {
+    color: #ff5500;
+    text-decoration: underline;
+}
