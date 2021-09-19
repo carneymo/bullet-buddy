@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6abcd27050b20165e625ea26a4c5b9db",
+    "revision": "df170ecfe06d356ae3ea1659233077f2",
     "url": "/bullet-buddy/index.html"
   },
   {
-    "revision": "4495cb2e725a71e4790a",
+    "revision": "d52051afc55ce93c17b2",
     "url": "/bullet-buddy/static/css/2.e312bab6.chunk.css"
   },
   {
-    "revision": "d73ad03fcc9ea5c184af",
+    "revision": "3c4a95aa2ff75d6bd98c",
     "url": "/bullet-buddy/static/css/main.ea76fac5.chunk.css"
   },
   {
-    "revision": "4495cb2e725a71e4790a",
-    "url": "/bullet-buddy/static/js/2.d8f445ab.chunk.js"
+    "revision": "d52051afc55ce93c17b2",
+    "url": "/bullet-buddy/static/js/2.e4809405.chunk.js"
   },
   {
-    "revision": "5cf0b55f711b4765b7e42faa5df6636d",
-    "url": "/bullet-buddy/static/js/2.d8f445ab.chunk.js.LICENSE.txt"
+    "revision": "0e0e24d1fea5914c2d4bc1ed37ca4dc8",
+    "url": "/bullet-buddy/static/js/2.e4809405.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "d73ad03fcc9ea5c184af",
-    "url": "/bullet-buddy/static/js/main.0fc083ce.chunk.js"
+    "revision": "3c4a95aa2ff75d6bd98c",
+    "url": "/bullet-buddy/static/js/main.8ce3894e.chunk.js"
   },
   {
     "revision": "f7403d36a625e8cd51f8",
