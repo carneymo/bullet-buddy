@@ -2,7 +2,11 @@ import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
-import { IconButton, Tab, Tabs } from "@material-ui/core";
+import {
+  IconButton,
+  Tab,
+  Tabs,
+} from "@material-ui/core";
 import "./styles/css/App.css";
 import "./components/RawBulletTextArea";
 import BulletEditor from "./components/Bullets/BulletEditor";
@@ -20,7 +24,6 @@ import Saver from "./components/System/Saver";
  * App
  */
 class App extends React.Component {
-
   storageKey = "bulletBuddyStoredData";
 
   /**
@@ -49,7 +52,7 @@ class App extends React.Component {
         posY: 0,
         wordList: null,
       },
-      lastSaved: ""
+      lastSaved: "",
     };
     this.inputTextRef = React.createRef();
     this.handleTextAreaUpdate = this.handleTextAreaUpdate.bind(this);
@@ -65,13 +68,11 @@ class App extends React.Component {
     }
     let data = this.getStoredData();
     if (data !== null && data !== "") {
-      if(data.bullets) {
-        console.log("Saving bullets");
+      if (data.bullets) {
         this.handleTextAreaUpdate(data.bullets);
       }
-      if(data.lastSave) {
-        console.log("Saving last saved");
-        this.setState({lastSave: data.lastSave });
+      if (data.lastSave) {
+        this.setState({ lastSave: data.lastSave });
       }
     }
   }
@@ -107,16 +108,19 @@ class App extends React.Component {
   saveData = () => {
     try {
       this.setState({
-        "lastSave": Date().toLocaleString()
+        lastSave: Date().toLocaleString(),
       });
-      window.localStorage.setItem(this.storageKey, JSON.stringify({
-        bullets: this.state.bulletInputText,
-        lastSave: this.state.lastSave
-      }));
+      window.localStorage.setItem(
+        this.storageKey,
+        JSON.stringify({
+          bullets: this.state.bulletInputText,
+          lastSave: this.state.lastSave,
+        })
+      );
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   /**
    * Set Abbreviation Table
@@ -237,13 +241,10 @@ class App extends React.Component {
                     Clear Input
                   </Button>
                   {"  "}
-                  <Saver
-                    id="SaveBulletsButton"
-                    onSave={this.saveData}
-                  />
+                  <Saver id="SaveBulletsButton" onSave={this.saveData} />
                   <div>
                     <Typography variant="subtitle1">
-                      <small>Last Save: { this.state.lastSave }</small>
+                      <small>Last Save: {this.state.lastSave}</small>
                     </Typography>
                   </div>
                 </div>
@@ -320,28 +321,23 @@ class App extends React.Component {
           </Grid>
         </Container>
 
-        <div className="bottom-text">
-          <p>
-            This site utilizes{" "}
-            <a href="https://material-ui.com/"> Material-UI</a>,{" "}
-            <a href="https://handsontable.com/">HandsOnTable</a>, and the{" "}
-            <a href="https://www.datamuse.com/api/">DataMuse API</a> The
-            inspiration for this tool came from the{" "}
-            <a href="https://ea-pods-team.github.io/pdf-bullets/ ">
-              {" "}
-              EA-Pods Team pdf-bullets project
-            </a>
-          </p>
-          <p>
-            Submit an{" "}
-            <a href="https://github.com/AF-Tools/bullet-buddy/issues/new/choose">
-              issue
-            </a>{" "}
-            or view our{" "}
-            <a href="https://github.com/AF-Tools/bullet-buddy/">GitHub Page</a>
-          </p>
-          <p>Maintained by Nicholas Schweikart</p>
-        </div>
+        <AppBar position="static" color="primary" className="footer-bar">
+          <Container maxWidth="md">
+            <p>
+              <Typography variant="body1" color="inherit" alignCenter>
+                Modified by Ryan Carney-Mogan. | Submit an{" "}
+                <a href="https://github.com/carneymo/bullet-buddy/issues/new/choose" target="_blank" rel="noreferrer noopener">
+                  issue
+                </a>{" "}
+                or view the{" "}
+                <a href="https://github.com/carneymo/bullet-buddy/" target="_blank" rel="noreferrer noopener">GitHub Page</a>
+                <br/>
+                Original Utility by{" "}
+                <a href="https://github.com/AF-Tools/bullet-buddy/" target="_blank" rel="noreferrer noopener">Nicholas Schweikart</a>
+              </Typography>
+            </p>
+          </Container>
+        </AppBar>
       </div>
     );
   }
