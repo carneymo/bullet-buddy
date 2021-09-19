@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c2300171e2a5e52c44ad346c8dc58e18",
+    "revision": "5354e71972560fadc493ea652ad5cb74",
     "url": "/bullet-buddy/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bullet-buddy/static/css/2.e312bab6.chunk.css"
   },
   {
-    "revision": "411187559c6ae2888439",
+    "revision": "374e69bea296126c1a4f",
     "url": "/bullet-buddy/static/css/main.c5fa8924.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bullet-buddy/static/js/2.e4809405.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "411187559c6ae2888439",
-    "url": "/bullet-buddy/static/js/main.3a0f5615.chunk.js"
+    "revision": "374e69bea296126c1a4f",
+    "url": "/bullet-buddy/static/js/main.8324dc5e.chunk.js"
   },
   {
     "revision": "f7403d36a625e8cd51f8",
