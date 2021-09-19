@@ -44,9 +44,9 @@ class Word extends React.Component {
   };
 
   handleSynonymClick = (synonym, parentIndex) => {
-    this.state.value = synonym;
     this.setState({
       open: false,
+      value: synonym,
       synonyms: [],
     });
     this.props.changeWord(synonym, parentIndex);
