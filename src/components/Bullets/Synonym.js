@@ -4,13 +4,6 @@ import React from "react";
  *
  */
 class Synonym extends React.Component {
-  /**
-   * Constructor
-   * @param props
-   */
-  constructor(props) {
-    super(props);
-  }
 
   /**
    * Render

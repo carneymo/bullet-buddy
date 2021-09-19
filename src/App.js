@@ -2,7 +2,7 @@ import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
-import { Tab, Tabs } from "@material-ui/core";
+import { IconButton, Tab, Tabs } from "@material-ui/core";
 import "./styles/css/App.css";
 import "./components/RawBulletTextArea";
 import BulletEditor from "./components/Bullets/BulletEditor";
@@ -13,11 +13,16 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
+import MenuIcon from "@mui/icons-material/Menu";
+import Saver from "./components/System/Saver";
 
 /**
  * App
  */
 class App extends React.Component {
+
+  storageKey = "bulletBuddyStoredData";
+
   /**
    * Constructor
    * @param props
@@ -44,6 +49,7 @@ class App extends React.Component {
         posY: 0,
         wordList: null,
       },
+      lastSaved: ""
     };
     this.inputTextRef = React.createRef();
     this.handleTextAreaUpdate = this.handleTextAreaUpdate.bind(this);
@@ -56,7 +62,17 @@ class App extends React.Component {
     const el = document.querySelector(".loader-container");
     if (el) {
       el.remove(); // removing the spinner element
-      //this.setState({ loading: false }); // showing the app
+    }
+    let data = this.getStoredData();
+    if (data !== null && data !== "") {
+      if(data.bullets) {
+        console.log("Saving bullets");
+        this.handleTextAreaUpdate(data.bullets);
+      }
+      if(data.lastSave) {
+        console.log("Saving last saved");
+        this.setState({lastSave: data.lastSave });
+      }
     }
   }
 
@@ -69,25 +85,17 @@ class App extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {}
 
   /**
-   * Save Settings
-   * @param settings
-   */
-  saveSettings = (settings) => {
-    try {
-      window.localStorage.setItem("settings", JSON.stringify(settings));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  /**
    * Get Settings
    * @returns {null|any}
    */
-  getSettings = () => {
+  getStoredData = () => {
     try {
-      if (window.localStorage.getItem("settings")) {
-        return JSON.parse(window.localStorage.getItem("settings"));
+      if (window.localStorage.getItem(this.storageKey)) {
+        let data = window.localStorage.getItem(this.storageKey);
+        if (data) {
+          console.log(data);
+          return JSON.parse(data);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -95,6 +103,20 @@ class App extends React.Component {
     }
     return null;
   };
+
+  saveData = () => {
+    try {
+      this.setState({
+        "lastSave": Date().toLocaleString()
+      });
+      window.localStorage.setItem(this.storageKey, JSON.stringify({
+        bullets: this.state.bulletInputText,
+        lastSave: this.state.lastSave
+      }));
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   /**
    * Set Abbreviation Table
@@ -117,34 +139,9 @@ class App extends React.Component {
    * @param text
    */
   handleTextAreaUpdate = (text) => {
-    console.log("Update text with: ");
-    console.log(text);
     this.inputTextRef.current.style.height =
       this.inputTextRef.current.scrollHeight + "px";
     this.setState({ bulletInputText: text });
-  };
-
-  /**
-   * Handle Select
-   */
-  handleSelect = () => {
-    // let selection = window.getSelection();
-    // // Get position of text selection
-    // let offsetStart = this.inputTextRef.current.selectionStart;
-    // let offsetEnd = this.inputTextRef.current.selectionEnd;
-    // // Get potion of selection in viewport
-    // let x = e.nativeEvent.clientX;
-    // let y = e.nativeEvent.clientY;
-    // console.log("Start: " + offsetStart + "END: " + offsetEnd + " X: " +x + " Y: " + y);
-    // console.log("word: " + selection.toString())
-    // if(offsetStart === offsetEnd){
-    //   this.setState({thesauresViewer: {visibility: false, wordList:null}});
-    //   return;
-    // } // We dont have a full word selected
-    // // Extract word from selection
-    // let word = selection.toString();
-    // //TODO check for multple words and reject
-    // word.trim();
   };
 
   /**
@@ -155,21 +152,6 @@ class App extends React.Component {
   bulletTypeChange = (e, newValue) => {
     let bulletTypes = ["EPR", "OPR"];
     this.setState({ tabValue: newValue, bulletType: bulletTypes[newValue] });
-  };
-
-  /**
-   * Toggle Drawer
-   * @param event
-   * @param v
-   */
-  toggleDrawer = (event, v) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-    this.setState({ drawerOpen: v });
   };
 
   /**
@@ -211,6 +193,16 @@ class App extends React.Component {
               <Tab label="EPR/AWD" />
               <Tab label="OPR" />
             </Tabs>
+
+            <IconButton
+              size="medium"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
 
@@ -234,7 +226,7 @@ class App extends React.Component {
                 <div style={{ marginTop: "1em" }}>
                   <Button
                     variant="outlined"
-                    color="primary"
+                    color="secondary"
                     size="small"
                     startIcon={<DeleteIcon />}
                     onClick={() => {
@@ -244,6 +236,16 @@ class App extends React.Component {
                   >
                     Clear Input
                   </Button>
+                  {"  "}
+                  <Saver
+                    id="SaveBulletsButton"
+                    onSave={this.saveData}
+                  />
+                  <div>
+                    <Typography variant="subtitle1">
+                      <small>Last Save: { this.state.lastSave }</small>
+                    </Typography>
+                  </div>
                 </div>
               </div>
 
@@ -291,8 +293,9 @@ class App extends React.Component {
                 </Typography>
 
                 <Typography variant="subtitle1">
-                  Use this to find shortn'd words as well as common
-                  ABBR for military terms.<br/>
+                  Use this to find shortn'd words as well as common ABBR for
+                  military terms.
+                  <br />
                   Use <strong>Filters</strong> to search.
                 </Typography>
 
@@ -300,10 +303,15 @@ class App extends React.Component {
 
                 <Typography variant="subtitle1">
                   <small>
-                    Terms from {" "}
-                    <a href="https://www.jcs.mil/Portals/36/Documents/Doctrine/pubs/dictionary.pdf" target="_blank">
+                    Terms from{" "}
+                    <a
+                      href="https://www.jcs.mil/Portals/36/Documents/Doctrine/pubs/dictionary.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       https://www.jcs.mil/Portals/36/Documents/Doctrine/pubs/dictionary.pdf
-                    </a><br/>
+                    </a>
+                    <br />
                     and from AFM 33-336 Tongue and Quill
                   </small>
                 </Typography>

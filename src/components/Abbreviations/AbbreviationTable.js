@@ -8,11 +8,16 @@ import {
 
 import MilitaryDictionary from "./militaryTerms.json";
 
+/**
+ * Abbreviation Table
+ */
 class AbbreviationTable extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
+  /**
+   * Custom Toolbar
+   * @returns {JSX.Element}
+   * @constructor
+   */
   CustomToolbar() {
     return (
       <GridToolbarContainer>
@@ -22,6 +27,10 @@ class AbbreviationTable extends React.Component {
     );
   }
 
+  /**
+   * Render
+   * @returns {JSX.Element}
+   */
   render() {
     const columns = [
       { field: "id", headerName: "ID", width: 35, hide: true, filterable: false },
