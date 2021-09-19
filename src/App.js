@@ -8,13 +8,11 @@ import "./components/RawBulletTextArea";
 import BulletEditor from "./components/Bullets/BulletEditor";
 import BulletOutputViewer from "./components/Bullets/BulletOutputViewer";
 import AcronymViewer from "./components/AcronymViewer";
-import AbbreviationTable from "./components/AbbreviationTable";
+import AbbreviationTable from "./components/Abbreviations/AbbreviationTable";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
-import Drawer from "@material-ui/core/Drawer";
-import ViewListIcon from "@material-ui/icons/ViewList";
 
 /**
  * App
@@ -60,11 +58,6 @@ class App extends React.Component {
       el.remove(); // removing the spinner element
       //this.setState({ loading: false }); // showing the app
     }
-    let settings = this.getSettings();
-    if (settings !== null) {
-      this.setState({ abbreviationData: settings.abbreviationData });
-      this.setAbbreviationTable(settings.abbreviationData);
-    }
   }
 
   /**
@@ -101,16 +94,6 @@ class App extends React.Component {
       return null;
     }
     return null;
-  };
-
-  /**
-   * On Abbreviation Table Change
-   */
-  onAbbreviationTableChange = () => {
-    const { abbreviationData } = this.state;
-    this.setAbbreviationTable(abbreviationData);
-    let settings = { abbreviationData: abbreviationData };
-    this.saveSettings(settings);
   };
 
   /**
@@ -194,10 +177,13 @@ class App extends React.Component {
    * @returns {JSX.Element}
    */
   render() {
+    // IMPORTANT, this is what makes the difference in bullet lengths
     const widthSettings = {
       OPR: "201.050mm",
       EPR: "202.321mm",
     };
+
+    // Header BG Color changes based on which PR being worked
     const bgColor = {
       OPR: "#1a6f46",
       EPR: "",
@@ -225,15 +211,6 @@ class App extends React.Component {
               <Tab label="EPR/AWD" />
               <Tab label="OPR" />
             </Tabs>
-            <Button
-              size="small"
-              variant="outlined"
-              color="inherit"
-              startIcon={<ViewListIcon />}
-              onClick={(e) => this.toggleDrawer(e, true)}
-            >
-              Abbreviations
-            </Button>
           </Toolbar>
         </AppBar>
 
@@ -254,7 +231,7 @@ class App extends React.Component {
                     minHeight: "5em",
                   }}
                 />
-                <div style={{marginTop: "1em"}}>
+                <div style={{ marginTop: "1em" }}>
                   <Button
                     variant="outlined"
                     color="primary"
@@ -275,7 +252,9 @@ class App extends React.Component {
                   Smart Bullet Editor
                 </Typography>
 
-                <small>Hover over terms to see synonyms</small>
+                <Typography variant="subtitle1">
+                  Hover over terms to see synonyms
+                </Typography>
 
                 <BulletEditor
                   inputBullets={this.state.bulletInputText}
@@ -305,27 +284,32 @@ class App extends React.Component {
                   text={this.state.bulletInputText}
                 />
               </div>
+
+              <div className="container">
+                <Typography variant="h6">
+                  Military Abbreviations Table
+                </Typography>
+
+                <Typography variant="subtitle1">
+                  Use this to find shortn'd words as well as common
+                  ABBR for military terms.<br/>
+                  Use <strong>Filters</strong> to search.
+                </Typography>
+
+                <AbbreviationTable />
+
+                <Typography variant="subtitle1">
+                  <small>
+                    Terms from {" "}
+                    <a href="https://www.jcs.mil/Portals/36/Documents/Doctrine/pubs/dictionary.pdf" target="_blank">
+                      https://www.jcs.mil/Portals/36/Documents/Doctrine/pubs/dictionary.pdf
+                    </a><br/>
+                    and from AFM 33-336 Tongue and Quill
+                  </small>
+                </Typography>
+              </div>
             </Grid>
           </Grid>
-
-          <Drawer
-            className="drawer"
-            anchor="bottom"
-            open={this.state.drawerOpen}
-            onClose={(e) => this.toggleDrawer(e, false)}
-          >
-            <div id="drawer-header" className="drawer-header">
-              <Typography variant="h6">Current Abbreviations Table</Typography>
-              <Typography variant="subtitle1">
-                Copy your organizations approved abbreviations into the table.
-                (They will save in your browser for future use!)
-              </Typography>
-            </div>
-            <AbbreviationTable
-              abbreviationData={this.state.abbreviationData}
-              onAbbrevitionDataChange={this.onAbbreviationTableChange}
-            />
-          </Drawer>
         </Container>
 
         <div className="bottom-text">
