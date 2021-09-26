@@ -43,6 +43,11 @@ class Word extends React.Component {
     this.setState({ open: false });
   };
 
+  /**
+   * Handle Synonym Click
+   * @param synonym
+   * @param parentIndex
+   */
   handleSynonymClick = (synonym, parentIndex) => {
     this.setState({
       open: false,
@@ -50,14 +55,6 @@ class Word extends React.Component {
       synonyms: [],
     });
     this.props.changeWord(synonym, parentIndex);
-  };
-
-  /**
-   * Handle Hover
-   */
-  handleHover = () => {
-    // Change CSS
-    // Load synonyms and populate lists
   };
 
   /**
@@ -98,7 +95,6 @@ class Word extends React.Component {
    * @param word
    */
   getSynonyms = (word) => {
-    ////console.log("Attempting to get synonyms for: " + word)
     if (word in this.previousLookup) {
       return this.previousLookup[word];
     } else {
