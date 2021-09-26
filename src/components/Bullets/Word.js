@@ -118,11 +118,6 @@ class Word extends React.Component {
               this.setState({ synonyms: [] });
             }
           })
-          .then(() => {
-            if(this.state.synonyms.length > 0) {
-
-            }
-          })
           .catch((err) => {
             console.log(`ERR: ${JSON.stringify(err)}`);
           });
