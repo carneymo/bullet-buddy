@@ -1,5 +1,7 @@
 ## Welcome
-This project was inpired by work done by the [EA-Pods-Team](https://ea-pods-team.github.io/pdf-bullets/)and their pdf-bullets tool. A live version of bullet buddy can be found [HERE](https://af-tools.github.io/bullet-buddy)
+This project was inpired by work done by the [EA-Pods-Team](https://ea-pods-team.github.io/pdf-bullets/)and their pdf-bullets tool. The project was extended into AF-Tools Bullet Buddy by Nicholas Schweikart and can be found [HERE](https://af-tools.github.io/bullet-buddy) 
+
+This tool extends both and adds functionality. A live version of this bullet buddy can be found [HERE](https://carneymo.github.io/bullet-buddy)
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
