@@ -4,25 +4,25 @@
   "private": true,
   "dependencies": {
     "@dr-kobros/react-webfont-loader": "^8.0.0",
-    "@emotion/react": "^11.4.1",
-    "@emotion/styled": "^11.3.0",
-    "@handsontable/react": "^4.0.0",
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
+    "@handsontable/react": "^11.1.0",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
-    "@mui/icons-material": "^5.0.0",
-    "@mui/material": "^5.0.0",
-    "@mui/x-data-grid": "^4.0.0",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
+    "@mui/icons-material": "^5.5.0",
+    "@mui/material": "^5.5.0",
+    "@mui/x-data-grid": "^5.6.0",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.4",
+    "@testing-library/user-event": "^13.5.0",
     "axios": "^0.21.4",
     "gh-pages": "^3.2.3",
-    "handsontable": "^10.0.0",
-    "react": "^16.14.0",
+    "handsontable": "^11.1.0",
+    "react": "^17.0.2",
     "react-contenteditable": "^3.3.6",
-    "react-dom": "^16.14.0",
-    "react-scripts": "3.4.3",
-    "sanitize-html": ">=2.3.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "5.0.0",
+    "sanitize-html": ">=2.7.0",
     "webfontloader": "^1.6.28"
   },
   "scripts": {
@@ -48,7 +48,7 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://af-tools.github.io/bullet-buddy/",
+  "homepage": "https://carneymo.github.io/bullet-buddy/",
   "devDependencies": {
     "prettier": "2.4.1"
   }
