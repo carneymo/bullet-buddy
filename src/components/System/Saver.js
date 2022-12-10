@@ -1,7 +1,7 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import { Save } from "@material-ui/icons";
-import { Snackbar } from "@material-ui/core";
+import Button from "@mui/material/Button";
+import { Save } from "@mui/icons-material";
+import { Snackbar } from "@mui/material";
 import MuiAlert from '@mui/material/Alert';
 
 

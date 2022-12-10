@@ -94,7 +94,7 @@ class BulletOutputViewerBullet extends React.Component {
       let oldPWidth = parentNode.style.width;
       parentNode.style.width = "800.00mm";
 
-      const { width, height } = node.getBoundingClientRect();
+      const { width } = node.getBoundingClientRect();
 
       // // Re-enable wrapping
       // node.style.whiteSpace = 'pre-wrap';

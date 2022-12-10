@@ -1,22 +1,22 @@
 import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Typography from "@material-ui/core/Typography";
-import Toolbar from "@material-ui/core/Toolbar";
+import AppBar from "@mui/material/AppBar";
+import Typography from "@mui/material/Typography";
+import Toolbar from "@mui/material/Toolbar";
 import {
   IconButton,
   Tab,
   Tabs,
-} from "@material-ui/core";
+} from "@mui/material";
 import "./styles/css/App.css";
 import "./components/RawBulletTextArea";
 import BulletEditor from "./components/Bullets/BulletEditor";
 import BulletOutputViewer from "./components/Bullets/BulletOutputViewer";
 import AcronymViewer from "./components/AcronymViewer";
 import AbbreviationTable from "./components/Abbreviations/AbbreviationTable";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import DeleteIcon from '@mui/icons-material/Delete';
 import MenuIcon from "@mui/icons-material/Menu";
 import Saver from "./components/System/Saver";
 
