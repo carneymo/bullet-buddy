@@ -1,12 +1,5 @@
 import React from "react";
-import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
-import Toolbar from "@mui/material/Toolbar";
-import {
-  IconButton,
-  Tab,
-  Tabs,
-} from "@mui/material";
 import "./styles/css/App.css";
 import "./components/RawBulletTextArea";
 import BulletEditor from "./components/Bullets/BulletEditor";
@@ -16,9 +9,10 @@ import AbbreviationTable from "./components/Abbreviations/AbbreviationTable";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import DeleteIcon from '@mui/icons-material/Delete';
-import MenuIcon from "@mui/icons-material/Menu";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Saver from "./components/System/Saver";
+import NavBar from "./components/Containers/HeaderAppBar";
+import FooterAppBar from "./components/Containers/FooterAppBar";
 
 /**
  * App
@@ -169,48 +163,17 @@ class App extends React.Component {
       EPR: "202.321mm",
     };
 
-    // Header BG Color changes based on which PR being worked
-    const bgColor = {
-      OPR: "#1a6f46",
-      EPR: "",
-    };
-
     const widthSetting = widthSettings[this.state.bulletType];
-    const currentBgColor = bgColor[this.state.bulletType];
 
     return (
       <div id="root" className="root">
-        <AppBar
-          position="static"
-          className="app-bar"
-          style={{ backgroundColor: currentBgColor }}
-        >
-          <Toolbar>
-            <Typography variant="h6" color="inherit" className="title">
-              Bullet Buddy!
-            </Typography>
-            <Tabs
-              className=""
-              value={this.state.tabValue}
-              onChange={this.bulletTypeChange}
-            >
-              <Tab label="EPR/AWD" />
-              <Tab label="OPR" />
-            </Tabs>
+        <NavBar
+          tabValue={this.state.tabValue}
+          bulletType={this.state.bulletType}
+          bulletTypeChange={this.bulletTypeChange}
+        />
 
-            <IconButton
-              size="medium"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-
-        <Container className="content" maxWidth="xl">
+        <Container className="content" maxWidth="{false}">
           <Grid container justifyContent="space-around" spacing={1}>
             <Grid item xs={12} md={12} lg={12} xl={6} align="center">
               <div className="container">
@@ -320,24 +283,7 @@ class App extends React.Component {
             </Grid>
           </Grid>
         </Container>
-
-        <AppBar position="static" color="primary" className="footer-bar">
-          <Container maxWidth="md">
-            <p>
-              <Typography variant="body1" color="inherit" alignCenter>
-                Modified by Ryan Carney-Mogan. | Submit an{" "}
-                <a href="https://github.com/carneymo/bullet-buddy/issues/new/choose" target="_blank" rel="noreferrer noopener">
-                  issue
-                </a>{" "}
-                or view the{" "}
-                <a href="https://github.com/carneymo/bullet-buddy/" target="_blank" rel="noreferrer noopener">GitHub Page</a>
-                <br/>
-                Original Utility by{" "}
-                <a href="https://github.com/AF-Tools/bullet-buddy/" target="_blank" rel="noreferrer noopener">Nicholas Schweikart</a>
-              </Typography>
-            </p>
-          </Container>
-        </AppBar>
+        <FooterAppBar />
       </div>
     );
   }

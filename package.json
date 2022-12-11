@@ -46,6 +46,6 @@
   },
   "homepage": "https://carneymo.github.io/bullet-buddy/",
   "devDependencies": {
-    "prettier": "2.4.1"
+    "prettier": "^2.8.1"
   }
 }
