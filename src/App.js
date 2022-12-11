@@ -80,7 +80,7 @@ class App extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {}
 
   /**
-   * Get Settings
+   * Get Stored Data
    * @returns {null|any}
    */
   getStoredData = () => {
@@ -88,17 +88,18 @@ class App extends React.Component {
       if (window.localStorage.getItem(this.storageKey)) {
         let data = window.localStorage.getItem(this.storageKey);
         if (data) {
-          console.log(data);
           return JSON.parse(data);
         }
       }
     } catch (error) {
-      console.log(error);
-      return null;
+      console.error(error);
     }
     return null;
   };
 
+  /**
+   * Save Data
+   */
   saveData = () => {
     try {
       this.setState({
@@ -159,8 +160,13 @@ class App extends React.Component {
   render() {
     // IMPORTANT, this is what makes the difference in bullet lengths
     const widthSettings = {
-      OPR: "201.050mm",
-      EPR: "202.321mm",
+      //12 pt font widths
+      //OPR: "201.050mm",
+      //EPR: "202.321mm",
+
+      //10 pt font widths
+      OPR: "167.542mm",
+      EPR: "168.100mm",
     };
 
     const widthSetting = widthSettings[this.state.bulletType];
