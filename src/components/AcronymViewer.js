@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import FileCopyIcon from "@material-ui/icons/FileCopy";
+import Button from "@mui/material/Button";
+import FileCopyIcon from "@mui/icons-material/FileCopy";
 
 /**
  * Acronym Viewer

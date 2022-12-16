@@ -1,24 +1,18 @@
 import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Typography from "@material-ui/core/Typography";
-import Toolbar from "@material-ui/core/Toolbar";
-import {
-  IconButton,
-  Tab,
-  Tabs,
-} from "@material-ui/core";
+import Typography from "@mui/material/Typography";
 import "./styles/css/App.css";
 import "./components/RawBulletTextArea";
 import BulletEditor from "./components/Bullets/BulletEditor";
 import BulletOutputViewer from "./components/Bullets/BulletOutputViewer";
 import AcronymViewer from "./components/AcronymViewer";
 import AbbreviationTable from "./components/Abbreviations/AbbreviationTable";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
-import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Saver from "./components/System/Saver";
+import NavBar from "./components/Containers/HeaderAppBar";
+import FooterAppBar from "./components/Containers/FooterAppBar";
 
 /**
  * App
@@ -86,7 +80,7 @@ class App extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {}
 
   /**
-   * Get Settings
+   * Get Stored Data
    * @returns {null|any}
    */
   getStoredData = () => {
@@ -94,17 +88,18 @@ class App extends React.Component {
       if (window.localStorage.getItem(this.storageKey)) {
         let data = window.localStorage.getItem(this.storageKey);
         if (data) {
-          console.log(data);
           return JSON.parse(data);
         }
       }
     } catch (error) {
-      console.log(error);
-      return null;
+      console.error(error);
     }
     return null;
   };
 
+  /**
+   * Save Data
+   */
   saveData = () => {
     try {
       this.setState({
@@ -165,52 +160,26 @@ class App extends React.Component {
   render() {
     // IMPORTANT, this is what makes the difference in bullet lengths
     const widthSettings = {
-      OPR: "201.050mm",
-      EPR: "202.321mm",
-    };
+      //12 pt font widths
+      //OPR: "201.050mm",
+      //EPR: "202.321mm",
 
-    // Header BG Color changes based on which PR being worked
-    const bgColor = {
-      OPR: "#1a6f46",
-      EPR: "",
+      //10 pt font widths
+      OPR: "167.542mm",
+      EPR: "168.100mm",
     };
 
     const widthSetting = widthSettings[this.state.bulletType];
-    const currentBgColor = bgColor[this.state.bulletType];
 
     return (
       <div id="root" className="root">
-        <AppBar
-          position="static"
-          className="app-bar"
-          style={{ backgroundColor: currentBgColor }}
-        >
-          <Toolbar>
-            <Typography variant="h6" color="inherit" className="title">
-              Bullet Buddy!
-            </Typography>
-            <Tabs
-              className=""
-              value={this.state.tabValue}
-              onChange={this.bulletTypeChange}
-            >
-              <Tab label="EPR/AWD" />
-              <Tab label="OPR" />
-            </Tabs>
+        <NavBar
+          tabValue={this.state.tabValue}
+          bulletType={this.state.bulletType}
+          bulletTypeChange={this.bulletTypeChange}
+        />
 
-            <IconButton
-              size="medium"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-
-        <Container className="content" maxWidth="xl">
+        <Container className="content" maxWidth="{false}">
           <Grid container justifyContent="space-around" spacing={1}>
             <Grid item xs={12} md={12} lg={12} xl={6} align="center">
               <div className="container">
@@ -320,24 +289,7 @@ class App extends React.Component {
             </Grid>
           </Grid>
         </Container>
-
-        <AppBar position="static" color="primary" className="footer-bar">
-          <Container maxWidth="md">
-            <p>
-              <Typography variant="body1" color="inherit" alignCenter>
-                Modified by Ryan Carney-Mogan. | Submit an{" "}
-                <a href="https://github.com/carneymo/bullet-buddy/issues/new/choose" target="_blank" rel="noreferrer noopener">
-                  issue
-                </a>{" "}
-                or view the{" "}
-                <a href="https://github.com/carneymo/bullet-buddy/" target="_blank" rel="noreferrer noopener">GitHub Page</a>
-                <br/>
-                Original Utility by{" "}
-                <a href="https://github.com/AF-Tools/bullet-buddy/" target="_blank" rel="noreferrer noopener">Nicholas Schweikart</a>
-              </Typography>
-            </p>
-          </Container>
-        </AppBar>
+        <FooterAppBar />
       </div>
     );
   }
