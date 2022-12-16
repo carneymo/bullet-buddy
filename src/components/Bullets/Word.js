@@ -43,6 +43,11 @@ class Word extends React.Component {
     this.setState({ open: false });
   };
 
+  /**
+   * Handle Synonym Click
+   * @param {*} synonym
+   * @param {*} parentIndex
+   */
   handleSynonymClick = (synonym, parentIndex) => {
     this.setState({
       open: false,
@@ -67,9 +72,9 @@ class Word extends React.Component {
    */
   isNotEditable = (word) => {
     return Boolean(
-      (word.match(/([A-Z]{3,})/) != null) |
+      (word.match(/([A-Z]{2,})/) != null) |
         (word.match(/([0-9])/) != null) |
-        (word.length <= 3) |
+        (word.length <= 2) |
         (this.props.index < 1)
     );
   };
@@ -98,7 +103,6 @@ class Word extends React.Component {
    * @param word
    */
   getSynonyms = (word) => {
-    ////console.log("Attempting to get synonyms for: " + word)
     if (word in this.previousLookup) {
       return this.previousLookup[word];
     } else {
@@ -119,12 +123,11 @@ class Word extends React.Component {
             }
           })
           .then(() => {
-            if(this.state.synonyms.length > 0) {
-
+            if (this.state.synonyms.length > 0) {
             }
           })
           .catch((err) => {
-            console.log(`ERR: ${JSON.stringify(err)}`);
+            //console.log(`ERR: ${JSON.stringify(err)}`);
           });
       } else {
         this.setState({ synonyms: [] });
