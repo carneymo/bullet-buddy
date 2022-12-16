@@ -13,6 +13,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Saver from "./components/System/Saver";
 import NavBar from "./components/Containers/HeaderAppBar";
 import FooterAppBar from "./components/Containers/FooterAppBar";
+import FeatureNotes from "./components/FeatureNotes";
+import AcronymTable from "./components/AcronymTable";
 
 /**
  * App
@@ -47,6 +49,7 @@ class App extends React.Component {
         wordList: null,
       },
       lastSaved: "",
+      acronyms: [],
     };
     this.inputTextRef = React.createRef();
     this.handleTextAreaUpdate = this.handleTextAreaUpdate.bind(this);
@@ -67,6 +70,9 @@ class App extends React.Component {
       }
       if (data.lastSave) {
         this.setState({ lastSave: data.lastSave });
+      }
+      if (data.acronyms) {
+        this.setState({ acronyms: data.acronyms });
       }
     }
   }
@@ -110,6 +116,7 @@ class App extends React.Component {
         JSON.stringify({
           bullets: this.state.bulletInputText,
           lastSave: this.state.lastSave,
+          acronyms: this.state.acronyms,
         })
       );
     } catch (error) {
@@ -154,6 +161,14 @@ class App extends React.Component {
   };
 
   /**
+   * Update Acronym View
+   * @param {*} acronyms
+   */
+  updateAcronymView = (acronyms) => {
+    this.setState({ acronyms: acronyms });
+  };
+
+  /**
    * Render
    * @returns {JSX.Element}
    */
@@ -173,6 +188,8 @@ class App extends React.Component {
 
     return (
       <div id="root" className="root">
+        <FeatureNotes hasReadFeatureNotes={this.state.hasReadFeatureNotes} />
+
         <NavBar
           tabValue={this.state.tabValue}
           bulletType={this.state.bulletType}
@@ -235,6 +252,22 @@ class App extends React.Component {
                   width={widthSetting}
                 />
               </div>
+
+              <div className="container">
+                <Typography variant="h6" component="h2">
+                  Initialism/Acronym Editor
+                </Typography>
+
+                <Typography variant="subtitle1">
+                  Add the initialism/acronym definitions
+                </Typography>
+
+                <AcronymTable
+                  text={this.state.bulletInputText}
+                  acronyms={this.state.acronyms}
+                  updateAcronymView={this.updateAcronymView}
+                ></AcronymTable>
+              </div>
             </Grid>
 
             <Grid item xs={12} md={12} lg={12} xl={6} align="center">
@@ -253,7 +286,7 @@ class App extends React.Component {
               <div className="container">
                 <AcronymViewer
                   width={widthSetting}
-                  text={this.state.bulletInputText}
+                  acronyms={this.state.acronyms}
                 />
               </div>
 
