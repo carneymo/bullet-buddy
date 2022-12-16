@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
+var _ = require("lodash");
 
 /**
  * Acronym Viewer
@@ -30,36 +31,17 @@ class AcronymViewer extends React.Component {
   };
 
   /**
-   * Extract Acronyms
-   * @returns {string|*}
-   */
-  extractAcronyms = () => {
-    const { text } = this.props;
-    if (text === null) {
-      return "no acronyms yet";
-    }
-    let acs = text.match(/[A-Z]{2,}/g);
-    if (acs === null) {
-      return "no acronyms yet";
-    }
-    acs = acs.sort();
-    let alreadyAdded = [];
-    acs = acs.map((acs) => {
-      if (alreadyAdded.indexOf(acs) === -1) {
-        alreadyAdded.push(acs);
-        return " (" + acs + "); ";
-      }
-      return "";
-    });
-    return acs;
-  };
-
-  /**
    * Render
    * @returns {JSX.Element}
    */
   render() {
-    const acronyms = this.extractAcronyms();
+    let acronyms = this.props.acronyms;
+    acronyms = _.sortBy(acronyms, ["acronym"], ["asc"]);
+    let acroynmOutput = _.map(acronyms, (term) => {
+      if (term.definition !== "") {
+        return term.acronym + " - " + term.definition + "; ";
+      }
+    });
     return (
       <div>
         <div
@@ -73,7 +55,7 @@ class AcronymViewer extends React.Component {
             <mark>(use this section to spell out acronyms from the front)</mark>
           </p>
           <div className="bullet-output-bullet" ref={this.ref}>
-            {acronyms}
+            {acroynmOutput}
           </div>
         </div>
 
