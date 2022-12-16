@@ -1,9 +1,10 @@
 import * as React from "react";
 import {
   DataGrid,
+  GridToolbar,
   GridToolbarContainer,
   GridToolbarExport,
-  GridToolbarFilterButton
+  GridToolbarFilterButton,
 } from "@mui/x-data-grid";
 
 import MilitaryDictionary from "./militaryTerms.json";
@@ -12,7 +13,6 @@ import MilitaryDictionary from "./militaryTerms.json";
  * Abbreviation Table
  */
 class AbbreviationTable extends React.Component {
-
   /**
    * Custom Toolbar
    * @returns {JSX.Element}
@@ -33,10 +33,22 @@ class AbbreviationTable extends React.Component {
    */
   render() {
     const columns = [
-      { field: "id", headerName: "ID", width: 35, hide: true, filterable: false },
+      {
+        field: "id",
+        headerName: "ID",
+        width: 35,
+        hide: true,
+        filterable: false,
+      },
       { field: "term", headerName: "Term", width: 180 },
       { field: "definition", headerName: "Definition", width: 300 },
-      { field: "source", headerName: "Source", width: 200, hide: true, filterable: false },
+      {
+        field: "source",
+        headerName: "Source",
+        width: 200,
+        hide: true,
+        filterable: false,
+      },
     ];
 
     return (
@@ -45,10 +57,18 @@ class AbbreviationTable extends React.Component {
           <DataGrid
             density="compact"
             components={{
-              Toolbar: this.CustomToolbar,
+              Toolbar: GridToolbar,
             }}
+            disableColumnSelector
+            disableDensitySelector
             rows={MilitaryDictionary}
             columns={columns}
+            componentsProps={{
+              toolbar: {
+                showQuickFilter: true,
+                quickFilterProps: { debounceMs: 500 },
+              },
+            }}
             pagination
           />
         </div>

@@ -23,7 +23,6 @@ class BulletOutputViewer extends React.Component {
    * Component Did Mount
    */
   componentDidMount() {
-    //console.log(this.props.bulletsText)
     this.setState({ bullets: this.extractBullets(this.props.bulletsText) });
   }
 
@@ -63,7 +62,6 @@ class BulletOutputViewer extends React.Component {
     text = this.extractBullets(text);
     text = text.join("");
     text.replace(/\n/g, "\r\n"); //need this for WINDOWS!
-    //console.log('Copy event: ' + text)
     e.clipboardData.setData("text/plain", text);
   };
 

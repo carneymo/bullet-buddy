@@ -55,7 +55,6 @@ class BulletOutputViewerBullet extends React.Component {
       this.processed = false;
       this.setState({ bulletText: this.props.bulletText, optimized: false });
     } else if (newBulletText && !this.processing && !this.processed) {
-      console.log("did update with new state to process");
       this.optimizeBullet();
       this.props.handleBulletChange(this.state.bulletText, this.props.index);
     }
@@ -86,29 +85,13 @@ class BulletOutputViewerBullet extends React.Component {
       const parentNode = node.parentNode;
 
       let idealWidth = this.xToPx(this.props.width);
-
-      // // Undo wrapping so we get the single line height
-      // node.style.whiteSpace = 'nowrap';
-
-      // let idealHeight = node.getBoundingClientRect().height;
       let oldPWidth = parentNode.style.width;
       parentNode.style.width = "800.00mm";
 
       const { width } = node.getBoundingClientRect();
-
-      // // Re-enable wrapping
-      // node.style.whiteSpace = 'pre-wrap';
-      // node.style.wordBreak = "break-word";
       parentNode.style.width = oldPWidth;
 
-      let widthDiff = width - idealWidth;
-
-      // if (height > idealHeight + 2) {
-      //   wrapped = true;
-      // }
-
-      ////console.log(`bullet width difference: ${widthDiff}`)
-      return { widthDiff: widthDiff };
+      return { widthDiff: width - idealWidth };
     }
   };
 
@@ -169,7 +152,7 @@ class BulletOutputViewerBullet extends React.Component {
       return;
     }
     this.processing = true;
-    console.log("building bullet: " + bullet);
+    // console.log("building bullet: " + bullet);
     bullet = this.getNormalBullet(bullet);
     await this.setStateAsync({ bulletText: bullet });
     let prevEval = this.evaluateBullet();
@@ -178,7 +161,7 @@ class BulletOutputViewerBullet extends React.Component {
 
     if (prevEval.widthDiff > -0.02 && prevEval.widthDiff < 0) {
       // We are withing 1mm already
-      console.log("Bullet Already Optimized");
+      // console.log("Bullet Already Optimized");
       this.processed = true;
       this.processing = false;
       this.setState({ bulletText: bullet, optimized: true });
@@ -187,10 +170,10 @@ class BulletOutputViewerBullet extends React.Component {
 
     if (prevEval.widthDiff > 0) {
       // shrink bullet
-      console.log("Shrinking Bullet: " + bullet);
+      // console.log("Shrinking Bullet: " + bullet);
       grow = false;
     } else {
-      console.log("Shrinking Bullet: " + bullet);
+      // console.log("Shrinking Bullet: " + bullet);
     }
 
     let spaceIndexes = [];
@@ -238,7 +221,7 @@ class BulletOutputViewerBullet extends React.Component {
 
     while (!terminate) {
       if (useIndex.length === 0) {
-        console.log("exhausted all index values");
+        // console.log("exhausted all index values");
         terminate = true;
         optimal = false;
         continue;

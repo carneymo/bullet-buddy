@@ -142,6 +142,10 @@ html {
     background-color: rgba(255, 0, 0, 0.30);
 }
 
+.acronym-dropdown {
+    margin: 3px 0px;
+}
+
 /* Popup container - can be anything you want */
 .popup {
     position: relative;
