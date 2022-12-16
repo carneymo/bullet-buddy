@@ -176,12 +176,12 @@ class App extends React.Component {
     // IMPORTANT, this is what makes the difference in bullet lengths
     const widthSettings = {
       //12 pt font widths
-      //OPR: "201.050mm",
-      //EPR: "202.321mm",
+      OPR: "201.050mm",
+      EPR: "202.321mm",
 
       //10 pt font widths
-      OPR: "167.542mm",
-      EPR: "168.100mm",
+      //OPR: "167.542mm",
+      //EPR: "168.100mm",
     };
 
     const widthSetting = widthSettings[this.state.bulletType];
