@@ -32,7 +32,7 @@ class AcronymTable extends React.Component {
     if (text === null) {
       return [];
     }
-    let acs = text.match(/[A-Z]+[A-Z\\/]+/g);
+    let acs = text.match(/[A-Z]+[A-Z\\/0-9]+/g);
     if (acs === null) {
       return [];
     }
