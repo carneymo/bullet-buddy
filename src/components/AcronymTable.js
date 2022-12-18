@@ -18,9 +18,19 @@ class AcronymTable extends React.Component {
     super(props);
     this.state = {
       open: false,
-      acronyms: this.props.acronyms,
+      acronyms: [],
     };
     this.ref = React.createRef();
+  }
+
+  /**
+   * Update the acronyms once component is updated
+   * with extracted acronyms
+   */
+  componentDidUpdate() {
+    if (this.state.acronyms.length === 0) {
+      this.setState({ acronyms: this.props.acronyms });
+    }
   }
 
   /**
@@ -44,6 +54,7 @@ class AcronymTable extends React.Component {
       };
     });
     acs = _.uniqBy(acs, "acronym");
+    this.setState({ acronyms: acs });
     return acs;
   };
 
@@ -76,8 +87,9 @@ class AcronymTable extends React.Component {
     }
     let newStateAcs = this.state.acronyms;
     let index = _.findIndex(newStateAcs, { acronym: acronym.acronym });
-    newStateAcs[index].definition = acronym.definition;
-
+    if (index >= 0) {
+      newStateAcs[index].definition = acronym.definition;
+    }
     this.setState({ acronyms: newStateAcs });
     this.props.updateAcronymView(newStateAcs);
   };
@@ -87,9 +99,11 @@ class AcronymTable extends React.Component {
    * @returns {JSX.Element}
    */
   render() {
-    let acronyms = this.extractAcronyms();
     return (
-      <AcronymDropdown acronyms={acronyms} updateAcronym={this.updateAcronym} />
+      <AcronymDropdown
+        acronyms={this.props.acronyms}
+        updateAcronym={this.updateAcronym}
+      />
     );
   }
 }
