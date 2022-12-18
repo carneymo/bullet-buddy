@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/bullet-buddy/static/css/main.e985a9bc.css",
-    "main.js": "/bullet-buddy/static/js/main.6b60edaf.js",
+    "main.js": "/bullet-buddy/static/js/main.44836dbe.js",
     "static/media/TimesNewRomanPSMT.ttf": "/bullet-buddy/static/media/TimesNewRomanPSMT.077345309e414cac1ed0.ttf",
     "index.html": "/bullet-buddy/index.html",
     "main.e985a9bc.css.map": "/bullet-buddy/static/css/main.e985a9bc.css.map",
-    "main.6b60edaf.js.map": "/bullet-buddy/static/js/main.6b60edaf.js.map"
+    "main.44836dbe.js.map": "/bullet-buddy/static/js/main.44836dbe.js.map"
   },
   "entrypoints": [
     "static/css/main.e985a9bc.css",
-    "static/js/main.6b60edaf.js"
+    "static/js/main.44836dbe.js"
   ]
 }
