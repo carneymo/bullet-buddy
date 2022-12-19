@@ -24,37 +24,56 @@ class AcronymTable extends React.Component {
   }
 
   /**
-   * Update the acronyms once component is updated
-   * with extracted acronyms
+   * If empty acronym table, update from passed in acronyms
    */
   componentDidUpdate() {
-    if (this.state.acronyms.length === 0) {
+    if (this.state.acronyms?.length === 0 && this.props?.acronyms?.length > 0) {
       this.setState({ acronyms: this.props.acronyms });
+    } else if (
+      this.state.acronyms?.length === 0 &&
+      this.props?.acronyms?.length === 0
+    ) {
+      let newAcronyms = this.extractAcronyms();
+      this.setState({
+        acronyms: newAcronyms,
+      });
     }
   }
 
   /**
    * Extract Acronyms
+   * Create Array of acronym objects
+   * Find matching terms in military dictionary as options
+   * Find already supplied definitions as definition selected
    * @returns {string|*}
    */
   extractAcronyms = () => {
-    const { text, acronyms } = this.props;
+    let { text } = this.props;
+    // Empty text, return empty acronym list
     if (text === null) {
       return [];
     }
-    let acs = text.match(/[A-Z]+[A-Z\\/0-9]+/g);
+    // Match acronym pattern, return empty list if none found
+    let acs = text.match(/[A-Z]+[A-Z\\/0-9-]*[A-Z0-9]+/g);
     if (acs === null) {
       return [];
     }
+
+    // Create array of acronym objects
+    let acronyms = this.state.acronyms;
     acs = acs.sort().map((term) => {
       return {
+        // Acronym as string (eg. "APT")
         acronym: term,
+        // Options as array of strings (eg. ["Apple Berry Cherry", "Amber Blue Clear"])
         options: this.acronymDefinitions(term),
+        // Selected definition
         definition: _.find(acronyms, { acronym: term })?.definition ?? "",
       };
     });
+
+    // In case of multiple uses of same acronym, this removes them
     acs = _.uniqBy(acs, "acronym");
-    this.setState({ acronyms: acs });
     return acs;
   };
 
@@ -78,10 +97,11 @@ class AcronymTable extends React.Component {
   };
 
   /**
-   * Update Acronym
-   * @param {*} target
+   * Save Acronym
+   * @param {*} acronym
+   * @returns
    */
-  updateAcronym = (acronym) => {
+  saveAcronym = (acronym) => {
     if (typeof acronym == "undefined" || acronym === "") {
       return;
     }
@@ -99,11 +119,9 @@ class AcronymTable extends React.Component {
    * @returns {JSX.Element}
    */
   render() {
+    let acronyms = this.extractAcronyms();
     return (
-      <AcronymDropdown
-        acronyms={this.props.acronyms}
-        updateAcronym={this.updateAcronym}
-      />
+      <AcronymDropdown acronyms={acronyms} saveAcronym={this.saveAcronym} />
     );
   }
 }

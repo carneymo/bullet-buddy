@@ -13,15 +13,18 @@ class AcronymDropdown extends React.Component {
     this.ref = React.createRef();
   }
 
+  /**
+   * Handle Change Event
+   *
+   * Will update list of acronyms with new term:definition
+   * @param {String} term
+   * @param {String} value
+   */
   handleChangeEvent = (term, value) => {
-    if (value === null) {
-      value = "";
-    }
-    let acronym = {
+    this.props.saveAcronym({
       acronym: term,
-      definition: value,
-    };
-    this.props.updateAcronym(acronym);
+      definition: value ?? "",
+    });
   };
 
   render() {
