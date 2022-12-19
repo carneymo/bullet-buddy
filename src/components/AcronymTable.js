@@ -33,7 +33,7 @@ class AcronymTable extends React.Component {
       this.state.acronyms?.length === 0 &&
       this.props?.acronyms?.length === 0
     ) {
-      let newAcronyms = this.extractAcronyms();
+      let newAcronyms = this.extractAcronyms(this.props?.text);
       this.setState({
         acronyms: newAcronyms,
       });
@@ -47,8 +47,7 @@ class AcronymTable extends React.Component {
    * Find already supplied definitions as definition selected
    * @returns {string|*}
    */
-  extractAcronyms = () => {
-    let { text } = this.props;
+  extractAcronyms = (text) => {
     // Empty text, return empty acronym list
     if (text === null) {
       return [];
@@ -119,7 +118,7 @@ class AcronymTable extends React.Component {
    * @returns {JSX.Element}
    */
   render() {
-    let acronyms = this.extractAcronyms();
+    let acronyms = this.extractAcronyms(this.props.text);
     return (
       <AcronymDropdown acronyms={acronyms} saveAcronym={this.saveAcronym} />
     );
